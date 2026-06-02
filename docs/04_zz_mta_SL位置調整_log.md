@@ -136,3 +136,20 @@ RR：1.0
 SL Mode Testで改善が見えたら、良かったSL Modeに絞ってRR調整を行う。
 
 その後、時間帯フィルターやHTF EMAフィルターを検討する。
+
+### 判断
+
+SLを浅くする方向では改善しなかった。
+
+最も良い結果は現行の `Zone Opposite`。
+
+```text
+
+Zone Opposite = ZZ-MTAゾーンの反対側をSLにする方式
+
+Long：Zone Bottom
+
+Short：Zone Top
+
+```
+
