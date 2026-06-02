@@ -1,0 +1,646 @@
+//@version=6
+indicator("v8.1α-ZZ-MTA-0.2 - Confirmed ZigZag MTA Line", overlay = true, max_labels_count = 500, max_lines_count = 500, max_bars_back = 5000)
+
+reversalMode = input.string("ATR", "ZigZag反転幅モード", options = ["ATR", "Ticks", "Percent"], group = "ZigZag Confirmed Engine")
+
+atrLength = input.int(14, "ATR Length", minval = 1, group = "ZigZag Confirmed Engine")
+atrMultiplier = input.float(2.0, "ATR倍率", minval = 0.1, step = 0.1, group = "ZigZag Confirmed Engine")
+
+reversalTicks = input.int(100, "固定Ticks反転幅", minval = 1, group = "ZigZag Confirmed Engine")
+reversalPercent = input.float(0.1, "Percent反転幅", minval = 0.01, step = 0.01, group = "ZigZag Confirmed Engine")
+
+showZigZagLine = input.bool(true, "Confirmed ZigZagラインを表示", group = "表示")
+showSwingLabels = input.bool(true, "Confirmed H/Lラベルを表示", group = "表示")
+showConfirmLabels = input.bool(false, "Confirm発生足ラベルを表示", group = "表示")
+showCandidate = input.bool(true, "未確定Candidateを表示", group = "表示")
+
+showMtaLine = input.bool(true, "ZigZag MTAラインを表示", group = "MTA")
+showMtaLabels = input.bool(true, "MTA発生/終了ラベルを表示", group = "MTA")
+showAnchorLine = input.bool(true, "MTA対応高値/安値ラインを表示", group = "MTA")
+showDebug = input.bool(false, "状態をデータウィンドウに表示", group = "Debug")
+
+maxStoredObjects = input.int(300, "保存するLine/Label最大数", minval = 50, maxval = 500, group = "Debug")
+
+zzHighColor = input.color(color.lime, "ZZ High色", group = "色")
+zzLowColor = input.color(color.red, "ZZ Low色", group = "色")
+candidateColor = input.color(color.gray, "Candidate色", group = "色")
+
+bullMtaColor = input.color(color.blue, "Bull MTA色", group = "色")
+bearMtaColor = input.color(color.fuchsia, "Bear MTA色", group = "色")
+endedMtaColor = input.color(color.gray, "終了MTA色", group = "色")
+anchorColor = input.color(color.orange, "対応高値/安値色", group = "色")
+
+atrValue = ta.atr(atrLength)
+
+reversalAmount(refPrice) =>
+    float result = na
+    if reversalMode == "ATR"
+        result := atrValue * atrMultiplier
+    if reversalMode == "Ticks"
+        result := reversalTicks * syminfo.mintick
+    if reversalMode == "Percent"
+        result := refPrice * reversalPercent / 100.0
+    result
+
+var int swingDir = 0
+
+var float rangeHigh = na
+var int rangeHighBar = na
+var int rangeHighTime = na
+
+var float rangeLow = na
+var int rangeLowBar = na
+var int rangeLowTime = na
+
+var float candidateHigh = na
+var int candidateHighBar = na
+var int candidateHighTime = na
+
+var float candidateLow = na
+var int candidateLowBar = na
+var int candidateLowTime = na
+
+var array<float> zzPrices = array.new_float()
+var array<int> zzTypes = array.new_int()
+var array<int> zzBars = array.new_int()
+var array<int> zzTimes = array.new_int()
+
+var array<line> zzLines = array.new_line()
+var array<label> swingLabels = array.new_label()
+var array<label> confirmLabels = array.new_label()
+
+var line candidateLine = na
+var label candidateLabel = na
+
+var int mtaTrend = 0
+var float mtaPrice = na
+var int mtaTime = na
+var float anchorPrice = na
+var int anchorBar = na
+var int anchorTime = na
+var bool mtaEnded = false
+
+var line mtaLine = na
+var line anchorLine = na
+var label mtaLabel = na
+
+bool confirmedSwing = false
+int confirmedType = 0
+float confirmedPrice = na
+int confirmedBar = na
+int confirmedTime = na
+
+if barstate.isconfirmed
+    confirmedSwing := false
+    confirmedType := 0
+    confirmedPrice := na
+    confirmedBar := na
+    confirmedTime := na
+
+    int swingDirAtStart = swingDir
+
+    if na(rangeHigh)
+        rangeHigh := high
+        rangeHighBar := bar_index
+        rangeHighTime := time
+
+    if na(rangeLow)
+        rangeLow := low
+        rangeLowBar := bar_index
+        rangeLowTime := time
+
+    if swingDirAtStart == 0
+        if high > rangeHigh
+            rangeHigh := high
+            rangeHighBar := bar_index
+            rangeHighTime := time
+
+        if low < rangeLow
+            rangeLow := low
+            rangeLowBar := bar_index
+            rangeLowTime := time
+
+        float initAmount = reversalAmount(close)
+
+        bool rangeReady = false
+        if not na(initAmount)
+            if rangeHigh - rangeLow >= initAmount
+                rangeReady := true
+
+        bool canStartUp = false
+        bool canStartDown = false
+
+        if rangeReady
+            if close >= open
+                canStartUp := true
+            else
+                canStartDown := true
+
+        if canStartUp
+            confirmedSwing := true
+            confirmedType := -1
+            confirmedPrice := rangeLow
+            confirmedBar := rangeLowBar
+            confirmedTime := rangeLowTime
+
+            swingDir := 1
+            candidateHigh := rangeHigh
+            candidateHighBar := rangeHighBar
+            candidateHighTime := rangeHighTime
+            candidateLow := na
+            candidateLowBar := na
+            candidateLowTime := na
+
+        if canStartDown
+            confirmedSwing := true
+            confirmedType := 1
+            confirmedPrice := rangeHigh
+            confirmedBar := rangeHighBar
+            confirmedTime := rangeHighTime
+
+            swingDir := -1
+            candidateLow := rangeLow
+            candidateLowBar := rangeLowBar
+            candidateLowTime := rangeLowTime
+            candidateHigh := na
+            candidateHighBar := na
+            candidateHighTime := na
+
+    if swingDirAtStart == 1
+        if na(candidateHigh)
+            candidateHigh := high
+            candidateHighBar := bar_index
+            candidateHighTime := time
+
+        if high > candidateHigh
+            candidateHigh := high
+            candidateHighBar := bar_index
+            candidateHighTime := time
+
+        float upAmount = reversalAmount(candidateHigh)
+
+        bool highConfirmed = false
+        if not na(upAmount)
+            if candidateHigh - low >= upAmount
+                highConfirmed := true
+
+        if highConfirmed
+            confirmedSwing := true
+            confirmedType := 1
+            confirmedPrice := candidateHigh
+            confirmedBar := candidateHighBar
+            confirmedTime := candidateHighTime
+
+            swingDir := -1
+            candidateLow := low
+            candidateLowBar := bar_index
+            candidateLowTime := time
+            candidateHigh := na
+            candidateHighBar := na
+            candidateHighTime := na
+
+    if swingDirAtStart == -1
+        if na(candidateLow)
+            candidateLow := low
+            candidateLowBar := bar_index
+            candidateLowTime := time
+
+        if low < candidateLow
+            candidateLow := low
+            candidateLowBar := bar_index
+            candidateLowTime := time
+
+        float downAmount = reversalAmount(candidateLow)
+
+        bool lowConfirmed = false
+        if not na(downAmount)
+            if high - candidateLow >= downAmount
+                lowConfirmed := true
+
+        if lowConfirmed
+            confirmedSwing := true
+            confirmedType := -1
+            confirmedPrice := candidateLow
+            confirmedBar := candidateLowBar
+            confirmedTime := candidateLowTime
+
+            swingDir := 1
+            candidateHigh := high
+            candidateHighBar := bar_index
+            candidateHighTime := time
+            candidateLow := na
+            candidateLowBar := na
+            candidateLowTime := na
+
+if barstate.isconfirmed and confirmedSwing and not na(confirmedPrice) and not na(confirmedTime)
+    bool canStore = true
+
+    int confirmedCount = array.size(zzTimes)
+
+    if confirmedCount > 0
+        int lastTime = array.get(zzTimes, confirmedCount - 1)
+        int lastType = array.get(zzTypes, confirmedCount - 1)
+
+        if confirmedTime <= lastTime
+            canStore := false
+
+        if confirmedType == lastType
+            canStore := false
+
+    if canStore
+        if array.size(zzPrices) > 0 and showZigZagLine
+            float previousPrice = array.get(zzPrices, array.size(zzPrices) - 1)
+            int previousTime = array.get(zzTimes, array.size(zzTimes) - 1)
+            color lineColor = confirmedType == 1 ? zzHighColor : zzLowColor
+            line newLine = line.new(previousTime, previousPrice, confirmedTime, confirmedPrice, xloc = xloc.bar_time, extend = extend.none, color = lineColor, width = 2)
+            array.push(zzLines, newLine)
+
+        if showSwingLabels
+            string swingText = confirmedType == 1 ? "ZZ High\nConfirmed" : "ZZ Low\nConfirmed"
+            color swingColor = confirmedType == 1 ? zzHighColor : zzLowColor
+            label swingLabel = label.new(confirmedTime, confirmedPrice, swingText, xloc = xloc.bar_time, yloc = yloc.price, style = confirmedType == 1 ? label.style_label_down : label.style_label_up, textcolor = color.white, color = swingColor, size = size.tiny)
+            array.push(swingLabels, swingLabel)
+
+        if showConfirmLabels
+            string confirmText = confirmedType == 1 ? "High confirmed here" : "Low confirmed here"
+            label confirmLabel = label.new(time, close, confirmText, xloc = xloc.bar_time, yloc = yloc.price, style = label.style_label_left, textcolor = color.white, color = color.new(color.gray, 0), size = size.tiny)
+            array.push(confirmLabels, confirmLabel)
+
+        array.push(zzPrices, confirmedPrice)
+        array.push(zzTypes, confirmedType)
+        array.push(zzBars, confirmedBar)
+        array.push(zzTimes, confirmedTime)
+
+        if array.size(zzLines) > maxStoredObjects
+            line oldLine = array.shift(zzLines)
+            if not na(oldLine)
+                line.delete(oldLine)
+
+        if array.size(swingLabels) > maxStoredObjects
+            label oldSwingLabel = array.shift(swingLabels)
+            if not na(oldSwingLabel)
+                label.delete(oldSwingLabel)
+
+        if array.size(confirmLabels) > maxStoredObjects
+            label oldConfirmLabel = array.shift(confirmLabels)
+            if not na(oldConfirmLabel)
+                label.delete(oldConfirmLabel)
+
+        if array.size(zzPrices) > maxStoredObjects
+            array.shift(zzPrices)
+            array.shift(zzTypes)
+            array.shift(zzBars)
+            array.shift(zzTimes)
+
+if barstate.isconfirmed
+    mtaEnded := false
+
+    int n = array.size(zzPrices)
+
+    if mtaTrend == 0
+        if n >= 3
+            int t1 = array.get(zzTypes, n - 3)
+            int t2 = array.get(zzTypes, n - 2)
+            int t3 = array.get(zzTypes, n - 1)
+
+            float p1 = array.get(zzPrices, n - 3)
+            float p2 = array.get(zzPrices, n - 2)
+            float p3 = array.get(zzPrices, n - 1)
+
+            int b2 = array.get(zzBars, n - 2)
+            int tm2 = array.get(zzTimes, n - 2)
+            int tm3 = array.get(zzTimes, n - 1)
+
+            bool bullPattern = false
+            bool bearPattern = false
+
+            if t1 == -1
+                if t2 == 1
+                    if t3 == -1
+                        if p3 > p1
+                            if close > p2
+                                bullPattern := true
+
+            if t1 == 1
+                if t2 == -1
+                    if t3 == 1
+                        if p3 < p1
+                            if close < p2
+                                bearPattern := true
+
+            if bullPattern
+                mtaTrend := 1
+                anchorPrice := p2
+                anchorBar := b2
+                anchorTime := tm2
+                mtaPrice := p3
+                mtaTime := tm3
+
+                if showMtaLabels
+                    label.new(time, mtaPrice, "Bull ZZ-MTA Start", xloc = xloc.bar_time, yloc = yloc.price, style = label.style_label_up, textcolor = color.white, color = bullMtaColor, size = size.small)
+
+            if bearPattern
+                mtaTrend := -1
+                anchorPrice := p2
+                anchorBar := b2
+                anchorTime := tm2
+                mtaPrice := p3
+                mtaTime := tm3
+
+                if showMtaLabels
+                    label.new(time, mtaPrice, "Bear ZZ-MTA Start", xloc = xloc.bar_time, yloc = yloc.price, style = label.style_label_down, textcolor = color.white, color = bearMtaColor, size = size.small)
+
+    if mtaTrend == 1
+        bool bullInvalid = false
+        if not na(mtaPrice)
+            if close < mtaPrice
+                bullInvalid := true
+
+        if bullInvalid
+            mtaTrend := 0
+            mtaEnded := true
+            if showMtaLabels
+                label.new(time, mtaPrice, "Bull ZZ-MTA End\nClose Break", xloc = xloc.bar_time, yloc = yloc.price, style = label.style_label_down, textcolor = color.white, color = endedMtaColor, size = size.small)
+        else
+            bool anchorBreak = false
+            if not na(anchorPrice)
+                if close > anchorPrice
+                    anchorBreak := true
+
+            if anchorBreak
+                int breakHighIdx = -1
+
+                if n > 0
+                    for j = 0 to n - 1
+                        int tj = array.get(zzTypes, j)
+                        int bj = array.get(zzBars, j)
+                        float pj = array.get(zzPrices, j)
+
+                        if tj == 1
+                            if bj > anchorBar
+                                if pj > anchorPrice
+                                    breakHighIdx := j
+
+                if breakHighIdx >= 0
+                    int breakHighBar = array.get(zzBars, breakHighIdx)
+
+                    float newLow = na
+                    int newLowIdx = -1
+
+                    if n > 0
+                        for j = 0 to n - 1
+                            int tj = array.get(zzTypes, j)
+                            int bj = array.get(zzBars, j)
+                            float pj = array.get(zzPrices, j)
+
+                            if tj == -1
+                                if bj > anchorBar
+                                    if bj < breakHighBar
+                                        if na(newLow)
+                                            newLow := pj
+                                            newLowIdx := j
+                                        else
+                                            if pj < newLow
+                                                newLow := pj
+                                                newLowIdx := j
+
+                    if newLowIdx >= 0
+                        mtaPrice := array.get(zzPrices, newLowIdx)
+                        mtaTime := array.get(zzTimes, newLowIdx)
+                        anchorPrice := array.get(zzPrices, breakHighIdx)
+                        anchorBar := array.get(zzBars, breakHighIdx)
+                        anchorTime := array.get(zzTimes, breakHighIdx)
+
+                        if showMtaLabels
+                            label.new(time, mtaPrice, "Bull ZZ-MTA Update", xloc = xloc.bar_time, yloc = yloc.price, style = label.style_label_up, textcolor = color.white, color = bullMtaColor, size = size.small)
+
+                if breakHighIdx < 0
+                    float rollingLow = na
+                    int rollingLowIdx = -1
+
+                    if n > 0
+                        for j = 0 to n - 1
+                            int tj = array.get(zzTypes, j)
+                            int bj = array.get(zzBars, j)
+                            float pj = array.get(zzPrices, j)
+
+                            if tj == -1
+                                if bj > anchorBar
+                                    if na(rollingLow)
+                                        rollingLow := pj
+                                        rollingLowIdx := j
+                                    else
+                                        if pj < rollingLow
+                                            rollingLow := pj
+                                            rollingLowIdx := j
+
+                    if rollingLowIdx >= 0
+                        float candidateMta = array.get(zzPrices, rollingLowIdx)
+
+                        bool shouldUpdateRolling = false
+                        if na(mtaPrice)
+                            shouldUpdateRolling := true
+                        else
+                            if candidateMta != mtaPrice
+                                shouldUpdateRolling := true
+
+                        if shouldUpdateRolling
+                            mtaPrice := candidateMta
+                            mtaTime := array.get(zzTimes, rollingLowIdx)
+
+                            if showMtaLabels
+                                label.new(time, mtaPrice, "Bull ZZ-MTA Rolling", xloc = xloc.bar_time, yloc = yloc.price, style = label.style_label_up, textcolor = color.white, color = bullMtaColor, size = size.tiny)
+
+    if mtaTrend == -1
+        bool bearInvalid = false
+        if not na(mtaPrice)
+            if close > mtaPrice
+                bearInvalid := true
+
+        if bearInvalid
+            mtaTrend := 0
+            mtaEnded := true
+            if showMtaLabels
+                label.new(time, mtaPrice, "Bear ZZ-MTA End\nClose Break", xloc = xloc.bar_time, yloc = yloc.price, style = label.style_label_up, textcolor = color.white, color = endedMtaColor, size = size.small)
+        else
+            bool anchorBreak = false
+            if not na(anchorPrice)
+                if close < anchorPrice
+                    anchorBreak := true
+
+            if anchorBreak
+                int breakLowIdx = -1
+
+                if n > 0
+                    for j = 0 to n - 1
+                        int tj = array.get(zzTypes, j)
+                        int bj = array.get(zzBars, j)
+                        float pj = array.get(zzPrices, j)
+
+                        if tj == -1
+                            if bj > anchorBar
+                                if pj < anchorPrice
+                                    breakLowIdx := j
+
+                if breakLowIdx >= 0
+                    int breakLowBar = array.get(zzBars, breakLowIdx)
+
+                    float newHigh = na
+                    int newHighIdx = -1
+
+                    if n > 0
+                        for j = 0 to n - 1
+                            int tj = array.get(zzTypes, j)
+                            int bj = array.get(zzBars, j)
+                            float pj = array.get(zzPrices, j)
+
+                            if tj == 1
+                                if bj > anchorBar
+                                    if bj < breakLowBar
+                                        if na(newHigh)
+                                            newHigh := pj
+                                            newHighIdx := j
+                                        else
+                                            if pj > newHigh
+                                                newHigh := pj
+                                                newHighIdx := j
+
+                    if newHighIdx >= 0
+                        mtaPrice := array.get(zzPrices, newHighIdx)
+                        mtaTime := array.get(zzTimes, newHighIdx)
+                        anchorPrice := array.get(zzPrices, breakLowIdx)
+                        anchorBar := array.get(zzBars, breakLowIdx)
+                        anchorTime := array.get(zzTimes, breakLowIdx)
+
+                        if showMtaLabels
+                            label.new(time, mtaPrice, "Bear ZZ-MTA Update", xloc = xloc.bar_time, yloc = yloc.price, style = label.style_label_down, textcolor = color.white, color = bearMtaColor, size = size.small)
+
+                if breakLowIdx < 0
+                    float rollingHigh = na
+                    int rollingHighIdx = -1
+
+                    if n > 0
+                        for j = 0 to n - 1
+                            int tj = array.get(zzTypes, j)
+                            int bj = array.get(zzBars, j)
+                            float pj = array.get(zzPrices, j)
+
+                            if tj == 1
+                                if bj > anchorBar
+                                    if na(rollingHigh)
+                                        rollingHigh := pj
+                                        rollingHighIdx := j
+                                    else
+                                        if pj > rollingHigh
+                                            rollingHigh := pj
+                                            rollingHighIdx := j
+
+                    if rollingHighIdx >= 0
+                        float candidateMta = array.get(zzPrices, rollingHighIdx)
+
+                        bool shouldUpdateRolling = false
+                        if na(mtaPrice)
+                            shouldUpdateRolling := true
+                        else
+                            if candidateMta != mtaPrice
+                                shouldUpdateRolling := true
+
+                        if shouldUpdateRolling
+                            mtaPrice := candidateMta
+                            mtaTime := array.get(zzTimes, rollingHighIdx)
+
+                            if showMtaLabels
+                                label.new(time, mtaPrice, "Bear ZZ-MTA Rolling", xloc = xloc.bar_time, yloc = yloc.price, style = label.style_label_down, textcolor = color.white, color = bearMtaColor, size = size.tiny)
+
+if showCandidate
+    if not na(candidateLine)
+        line.delete(candidateLine)
+        candidateLine := na
+
+    if not na(candidateLabel)
+        label.delete(candidateLabel)
+        candidateLabel := na
+
+    if swingDir == 1 and not na(candidateHigh) and not na(candidateHighTime)
+        candidateLine := line.new(candidateHighTime, candidateHigh, time, candidateHigh, xloc = xloc.bar_time, extend = extend.none, color = color.new(candidateColor, 30), width = 1, style = line.style_dotted)
+        candidateLabel := label.new(time, candidateHigh, "Candidate High", xloc = xloc.bar_time, yloc = yloc.price, style = label.style_label_down, textcolor = candidateColor, color = color.new(color.white, 100), size = size.tiny)
+
+    if swingDir == -1 and not na(candidateLow) and not na(candidateLowTime)
+        candidateLine := line.new(candidateLowTime, candidateLow, time, candidateLow, xloc = xloc.bar_time, extend = extend.none, color = color.new(candidateColor, 30), width = 1, style = line.style_dotted)
+        candidateLabel := label.new(time, candidateLow, "Candidate Low", xloc = xloc.bar_time, yloc = yloc.price, style = label.style_label_up, textcolor = candidateColor, color = color.new(color.white, 100), size = size.tiny)
+
+if not showCandidate
+    if not na(candidateLine)
+        line.delete(candidateLine)
+        candidateLine := na
+
+    if not na(candidateLabel)
+        label.delete(candidateLabel)
+        candidateLabel := na
+
+if showMtaLine
+    if not na(mtaLine)
+        line.delete(mtaLine)
+        mtaLine := na
+
+    if not na(anchorLine)
+        line.delete(anchorLine)
+        anchorLine := na
+
+    if not na(mtaLabel)
+        label.delete(mtaLabel)
+        mtaLabel := na
+
+    bool canDrawMta = false
+    if not na(mtaPrice)
+        if not na(mtaTime)
+            if mtaTime > 0
+                canDrawMta := true
+
+    if canDrawMta
+        color mtaColor = mtaTrend == 1 ? bullMtaColor : mtaTrend == -1 ? bearMtaColor : endedMtaColor
+        line_style mtaStyle = mtaTrend == 0 ? line.style_dotted : line.style_solid
+        label_style mtaLabelStyle = mtaTrend == 1 ? label.style_label_up : label.style_label_down
+        string mtaText = mtaTrend == 1 ? "ZZ-MTA Bull" : mtaTrend == -1 ? "ZZ-MTA Bear" : "ZZ-MTA Ended"
+
+        mtaLine := line.new(mtaTime, mtaPrice, time, mtaPrice, xloc = xloc.bar_time, extend = extend.right, color = mtaColor, width = 3, style = mtaStyle)
+
+        if showMtaLabels
+            mtaLabel := label.new(time, mtaPrice, mtaText, xloc = xloc.bar_time, yloc = yloc.price, style = mtaLabelStyle, textcolor = mtaColor, color = color.new(color.white, 100), size = size.small)
+
+        if showAnchorLine
+            bool canDrawAnchor = false
+            if not na(anchorPrice)
+                if not na(anchorTime)
+                    if anchorTime > 0
+                        canDrawAnchor := true
+
+            if canDrawAnchor
+                anchorLine := line.new(anchorTime, anchorPrice, time, anchorPrice, xloc = xloc.bar_time, extend = extend.right, color = anchorColor, width = 1, style = line.style_dashed)
+
+if not showMtaLine
+    if not na(mtaLine)
+        line.delete(mtaLine)
+        mtaLine := na
+
+    if not na(anchorLine)
+        line.delete(anchorLine)
+        anchorLine := na
+
+    if not na(mtaLabel)
+        label.delete(mtaLabel)
+        mtaLabel := na
+
+lastConfirmedPrice = array.size(zzPrices) > 0 ? array.get(zzPrices, array.size(zzPrices) - 1) : na
+lastConfirmedType = array.size(zzTypes) > 0 ? array.get(zzTypes, array.size(zzTypes) - 1) : na
+
+plot(showDebug ? swingDir : na, title = "ZZ Swing Direction 1=Up -1=Down", display = display.data_window)
+plot(showDebug ? lastConfirmedPrice : na, title = "Last Confirmed ZZ Price", display = display.data_window)
+plot(showDebug ? lastConfirmedType : na, title = "Last Confirmed ZZ Type 1=High -1=Low", display = display.data_window)
+plot(showDebug ? atrValue : na, title = "ATR Value", display = display.data_window)
+plot(showDebug ? reversalAmount(close) : na, title = "Current Reversal Amount", display = display.data_window)
+plot(showDebug ? array.size(zzPrices) : na, title = "Confirmed ZZ Count", display = display.data_window)
+plot(showDebug ? mtaTrend : na, title = "ZZ-MTA Trend 1=Bull -1=Bear 0=Off", display = display.data_window)
+plot(showDebug ? mtaPrice : na, title = "ZZ-MTA Price", display = display.data_window)
+plot(showDebug ? anchorPrice : na, title = "ZZ-MTA Anchor Price", display = display.data_window)
+plot(showDebug ? (mtaEnded ? 1 : 0) : na, title = "ZZ-MTA Ended", display = display.data_window)
