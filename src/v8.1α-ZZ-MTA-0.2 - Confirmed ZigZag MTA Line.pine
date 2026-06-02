@@ -599,8 +599,8 @@ if showMtaLine
 
     if canDrawMta
         color mtaColor = mtaTrend == 1 ? bullMtaColor : mtaTrend == -1 ? bearMtaColor : endedMtaColor
-        line_style mtaStyle = mtaTrend == 0 ? line.style_dotted : line.style_solid
-        label_style mtaLabelStyle = mtaTrend == 1 ? label.style_label_up : label.style_label_down
+        mtaStyle = mtaTrend == 0 ? line.style_dotted : line.style_solid
+        mtaLabelStyle = mtaTrend == 1 ? label.style_label_up : label.style_label_down
         string mtaText = mtaTrend == 1 ? "ZZ-MTA Bull" : mtaTrend == -1 ? "ZZ-MTA Bear" : "ZZ-MTA Ended"
 
         mtaLine := line.new(mtaTime, mtaPrice, time, mtaPrice, xloc = xloc.bar_time, extend = extend.right, color = mtaColor, width = 3, style = mtaStyle)
