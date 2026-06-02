@@ -151,3 +151,17 @@ pyramiding：0
 process_orders_on_close：false
 calc_on_every_tick：false
 ```
+
+##仕様はこれ
+
+Setup：15分ZZ-MTA Zone接触
+
+Trigger：B5.2 Fixed Pre Pivot Break
+
+Long SL：ZZ-MTA Zone Bottom
+
+Short SL：ZZ-MTA Zone Top
+
+TP：Trigger確定足終値基準 RR
+
+Entry：Trigger確定足の次足始値想定
