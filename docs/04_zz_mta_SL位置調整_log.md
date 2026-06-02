@@ -150,6 +150,7 @@ Zone Opposite = ZZ-MTAゾーンの反対側をSLにする方式
 Long：Zone Bottom
 
 Short：Zone Top
-
 ```
+
+
 
