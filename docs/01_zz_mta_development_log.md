@@ -471,7 +471,7 @@ ZZ-MTA + B2.1
 
 | MTA Type | Trigger | ZZ Setting | Trades | Win Rate | PF | Max DD | Avg P/L | Memo |
 |---|---|---|---:|---:|---:|---:|---:|---|
-| Pivot MTA | B5.2 | none |  |  |  |  |  | 既存基準 |
+| Pivot MTA | B5.2 | none | 922 | 30.37% | 0.259 | 1.58% | -17.09 | 既存基準 |
 | ZZ-MTA | B5.2 | ATR x 2.0 | 542 | 42.99% | 0.33 | 1.01% | -18.64 |  |
 | ZZ-MTA | B1 | ATR x 2.0 |  |  |  |  |  | 必要なら横展開 |
 | ZZ-MTA | B2.1 | ATR x 2.0 |  |  |  |  |  | 必要なら横展開 |
