@@ -23,39 +23,38 @@ bearMtaColor = input.color(color.fuchsia, "Bear MTA色", group = "色")
 endedMtaColor = input.color(color.gray, "終了MTA色", group = "色")
 anchorColor = input.color(color.orange, "対応高値/安値色", group = "色")
 
+reversalAmount(refPrice) =>
+    float atrValueLocal = ta.atr(atrLength)
+    float result = na
+    if reversalMode == "ATR"
+        result := atrValueLocal * atrMultiplier
+    if reversalMode == "Ticks"
+        result := reversalTicks * syminfo.mintick
+    if reversalMode == "Percent"
+        result := refPrice * reversalPercent / 100.0
+    result
+
+mtaBodyHighMaxFromBar(mtaBar) =>
+    float result = na
+    int barsBack = bar_index - mtaBar
+    int limit = math.min(barsBack, 500)
+    if limit >= 0
+        for i = 0 to limit
+            bodyHigh = math.max(open[i], close[i])
+            result := na(result) ? bodyHigh : math.max(result, bodyHigh)
+    result
+
+mtaBodyLowMinFromBar(mtaBar) =>
+    float result = na
+    int barsBack = bar_index - mtaBar
+    int limit = math.min(barsBack, 500)
+    if limit >= 0
+        for i = 0 to limit
+            bodyLow = math.min(open[i], close[i])
+            result := na(result) ? bodyLow : math.min(result, bodyLow)
+    result
+
 calcZzMta() =>
-    atrValue = ta.atr(atrLength)
-
-    reversalAmount(refPrice) =>
-        float result = na
-        if reversalMode == "ATR"
-            result := atrValue * atrMultiplier
-        if reversalMode == "Ticks"
-            result := reversalTicks * syminfo.mintick
-        if reversalMode == "Percent"
-            result := refPrice * reversalPercent / 100.0
-        result
-
-    mtaBodyHighMaxFromBar(mtaBar) =>
-        float result = na
-        int barsBack = bar_index - mtaBar
-        int limit = math.min(barsBack, 500)
-        if limit >= 0
-            for i = 0 to limit
-                bodyHigh = math.max(open[i], close[i])
-                result := na(result) ? bodyHigh : math.max(result, bodyHigh)
-        result
-
-    mtaBodyLowMinFromBar(mtaBar) =>
-        float result = na
-        int barsBack = bar_index - mtaBar
-        int limit = math.min(barsBack, 500)
-        if limit >= 0
-            for i = 0 to limit
-                bodyLow = math.min(open[i], close[i])
-                result := na(result) ? bodyLow : math.min(result, bodyLow)
-        result
-
     var int swingDir = 0
 
     var float rangeHigh = na
