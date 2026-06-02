@@ -1,0 +1,282 @@
+//@version=6
+indicator("v8.1α-ZZ-MTA-0.1 - Confirmed ZigZag Swing Engine", overlay = true, max_labels_count = 500, max_lines_count = 500, max_bars_back = 5000)
+
+reversalMode = input.string("ATR", "ZigZag反転幅モード", options = ["ATR", "Ticks", "Percent"], group = "ZigZag Confirmed Engine")
+
+atrLength = input.int(14, "ATR Length", minval = 1, group = "ZigZag Confirmed Engine")
+atrMultiplier = input.float(1.5, "ATR倍率", minval = 0.1, step = 0.1, group = "ZigZag Confirmed Engine")
+
+reversalTicks = input.int(100, "固定Ticks反転幅", minval = 1, group = "ZigZag Confirmed Engine")
+reversalPercent = input.float(0.1, "Percent反転幅", minval = 0.01, step = 0.01, group = "ZigZag Confirmed Engine")
+
+showZigZagLine = input.bool(true, "Confirmed ZigZagラインを表示", group = "表示")
+showSwingLabels = input.bool(true, "Confirmed H/Lラベルを表示", group = "表示")
+showConfirmLabels = input.bool(true, "Confirm発生足ラベルを表示", group = "表示")
+showCandidate = input.bool(true, "未確定Candidateを表示", group = "表示")
+showDebug = input.bool(false, "状態をデータウィンドウに表示", group = "Debug")
+
+maxStoredObjects = input.int(300, "保存するLine/Label最大数", minval = 50, maxval = 500, group = "Debug")
+
+upColor = input.color(color.lime, "High確定色", group = "色")
+downColor = input.color(color.red, "Low確定色", group = "色")
+candidateColor = input.color(color.gray, "Candidate色", group = "色")
+
+atrValue = ta.atr(atrLength)
+
+reversalAmount(refPrice) =>
+    float result = na
+    if reversalMode == "ATR"
+        result := atrValue * atrMultiplier
+    if reversalMode == "Ticks"
+        result := reversalTicks * syminfo.mintick
+    if reversalMode == "Percent"
+        result := refPrice * reversalPercent / 100.0
+    result
+
+var int swingDir = 0
+
+var float rangeHigh = na
+var int rangeHighBar = na
+var int rangeHighTime = na
+
+var float rangeLow = na
+var int rangeLowBar = na
+var int rangeLowTime = na
+
+var float candidateHigh = na
+var int candidateHighBar = na
+var int candidateHighTime = na
+
+var float candidateLow = na
+var int candidateLowBar = na
+var int candidateLowTime = na
+
+var array<float> confirmedPrices = array.new_float()
+var array<int> confirmedTypes = array.new_int()
+var array<int> confirmedBars = array.new_int()
+var array<int> confirmedTimes = array.new_int()
+
+var array<line> zzLines = array.new_line()
+var array<label> swingLabels = array.new_label()
+var array<label> confirmLabels = array.new_label()
+
+var line candidateLine = na
+var label candidateLabel = na
+
+bool confirmedSwing = false
+int confirmedType = 0
+float confirmedPrice = na
+int confirmedBar = na
+int confirmedTime = na
+
+if barstate.isconfirmed
+    confirmedSwing := false
+    confirmedType := 0
+    confirmedPrice := na
+    confirmedBar := na
+    confirmedTime := na
+
+    if na(rangeHigh)
+        rangeHigh := high
+        rangeHighBar := bar_index
+        rangeHighTime := time
+
+    if na(rangeLow)
+        rangeLow := low
+        rangeLowBar := bar_index
+        rangeLowTime := time
+
+    if swingDir == 0
+        if high > rangeHigh
+            rangeHigh := high
+            rangeHighBar := bar_index
+            rangeHighTime := time
+
+        if low < rangeLow
+            rangeLow := low
+            rangeLowBar := bar_index
+            rangeLowTime := time
+
+        float initAmount = reversalAmount(close)
+        bool canStartUp = not na(initAmount) and rangeHigh - rangeLow >= initAmount and close >= open
+        bool canStartDown = not na(initAmount) and rangeHigh - rangeLow >= initAmount and close < open
+
+        if canStartUp
+            confirmedSwing := true
+            confirmedType := -1
+            confirmedPrice := rangeLow
+            confirmedBar := rangeLowBar
+            confirmedTime := rangeLowTime
+
+            swingDir := 1
+            candidateHigh := rangeHigh
+            candidateHighBar := rangeHighBar
+            candidateHighTime := rangeHighTime
+            candidateLow := na
+            candidateLowBar := na
+            candidateLowTime := na
+
+        if canStartDown
+            confirmedSwing := true
+            confirmedType := 1
+            confirmedPrice := rangeHigh
+            confirmedBar := rangeHighBar
+            confirmedTime := rangeHighTime
+
+            swingDir := -1
+            candidateLow := rangeLow
+            candidateLowBar := rangeLowBar
+            candidateLowTime := rangeLowTime
+            candidateHigh := na
+            candidateHighBar := na
+            candidateHighTime := na
+
+    if swingDir == 1
+        if na(candidateHigh)
+            candidateHigh := high
+            candidateHighBar := bar_index
+            candidateHighTime := time
+
+        if high > candidateHigh
+            candidateHigh := high
+            candidateHighBar := bar_index
+            candidateHighTime := time
+
+        float upAmount = reversalAmount(candidateHigh)
+        bool highConfirmed = not na(upAmount) and candidateHigh - low >= upAmount
+
+        if highConfirmed
+            confirmedSwing := true
+            confirmedType := 1
+            confirmedPrice := candidateHigh
+            confirmedBar := candidateHighBar
+            confirmedTime := candidateHighTime
+
+            swingDir := -1
+            candidateLow := low
+            candidateLowBar := bar_index
+            candidateLowTime := time
+            candidateHigh := na
+            candidateHighBar := na
+            candidateHighTime := na
+
+    if swingDir == -1
+        if na(candidateLow)
+            candidateLow := low
+            candidateLowBar := bar_index
+            candidateLowTime := time
+
+        if low < candidateLow
+            candidateLow := low
+            candidateLowBar := bar_index
+            candidateLowTime := time
+
+        float downAmount = reversalAmount(candidateLow)
+        bool lowConfirmed = not na(downAmount) and high - candidateLow >= downAmount
+
+        if lowConfirmed
+            confirmedSwing := true
+            confirmedType := -1
+            confirmedPrice := candidateLow
+            confirmedBar := candidateLowBar
+            confirmedTime := candidateLowTime
+
+            swingDir := 1
+            candidateHigh := high
+            candidateHighBar := bar_index
+            candidateHighTime := time
+            candidateLow := na
+            candidateLowBar := na
+            candidateLowTime := na
+
+if barstate.isconfirmed and confirmedSwing and not na(confirmedPrice) and not na(confirmedTime)
+    bool canStore = true
+
+    if array.size(confirmedTimes) > 0
+        int lastTime = array.get(confirmedTimes, array.size(confirmedTimes) - 1)
+        int lastType = array.get(confirmedTypes, array.size(confirmedTypes) - 1)
+
+        if confirmedTime <= lastTime
+            canStore := false
+
+        if confirmedType == lastType
+            canStore := false
+
+    if canStore
+        if array.size(confirmedPrices) > 0 and showZigZagLine
+            float previousPrice = array.get(confirmedPrices, array.size(confirmedPrices) - 1)
+            int previousTime = array.get(confirmedTimes, array.size(confirmedTimes) - 1)
+            line newLine = line.new(previousTime, previousPrice, confirmedTime, confirmedPrice, xloc = xloc.bar_time, extend = extend.none, color = confirmedType == 1 ? upColor : downColor, width = 2)
+            array.push(zzLines, newLine)
+
+        if showSwingLabels
+            string swingText = confirmedType == 1 ? "ZZ High\nConfirmed" : "ZZ Low\nConfirmed"
+            label swingLabel = label.new(confirmedTime, confirmedPrice, swingText, xloc = xloc.bar_time, yloc = yloc.price, style = confirmedType == 1 ? label.style_label_down : label.style_label_up, textcolor = color.white, color = confirmedType == 1 ? upColor : downColor, size = size.tiny)
+            array.push(swingLabels, swingLabel)
+
+        if showConfirmLabels
+            string confirmText = confirmedType == 1 ? "High confirmed here" : "Low confirmed here"
+            label confirmLabel = label.new(time, close, confirmText, xloc = xloc.bar_time, yloc = yloc.price, style = label.style_label_left, textcolor = color.white, color = color.new(color.gray, 0), size = size.tiny)
+            array.push(confirmLabels, confirmLabel)
+
+        array.push(confirmedPrices, confirmedPrice)
+        array.push(confirmedTypes, confirmedType)
+        array.push(confirmedBars, confirmedBar)
+        array.push(confirmedTimes, confirmedTime)
+
+        if array.size(zzLines) > maxStoredObjects
+            line oldLine = array.shift(zzLines)
+            if not na(oldLine)
+                line.delete(oldLine)
+
+        if array.size(swingLabels) > maxStoredObjects
+            label oldSwingLabel = array.shift(swingLabels)
+            if not na(oldSwingLabel)
+                label.delete(oldSwingLabel)
+
+        if array.size(confirmLabels) > maxStoredObjects
+            label oldConfirmLabel = array.shift(confirmLabels)
+            if not na(oldConfirmLabel)
+                label.delete(oldConfirmLabel)
+
+        if array.size(confirmedPrices) > maxStoredObjects
+            array.shift(confirmedPrices)
+            array.shift(confirmedTypes)
+            array.shift(confirmedBars)
+            array.shift(confirmedTimes)
+
+if showCandidate
+    if not na(candidateLine)
+        line.delete(candidateLine)
+        candidateLine := na
+
+    if not na(candidateLabel)
+        label.delete(candidateLabel)
+        candidateLabel := na
+
+    if swingDir == 1 and not na(candidateHigh) and not na(candidateHighTime)
+        candidateLine := line.new(candidateHighTime, candidateHigh, time, candidateHigh, xloc = xloc.bar_time, extend = extend.none, color = color.new(candidateColor, 30), width = 1, style = line.style_dotted)
+        candidateLabel := label.new(time, candidateHigh, "Candidate High", xloc = xloc.bar_time, yloc = yloc.price, style = label.style_label_down, textcolor = candidateColor, color = color.new(color.white, 100), size = size.tiny)
+
+    if swingDir == -1 and not na(candidateLow) and not na(candidateLowTime)
+        candidateLine := line.new(candidateLowTime, candidateLow, time, candidateLow, xloc = xloc.bar_time, extend = extend.none, color = color.new(candidateColor, 30), width = 1, style = line.style_dotted)
+        candidateLabel := label.new(time, candidateLow, "Candidate Low", xloc = xloc.bar_time, yloc = yloc.price, style = label.style_label_up, textcolor = candidateColor, color = color.new(color.white, 100), size = size.tiny)
+
+if not showCandidate
+    if not na(candidateLine)
+        line.delete(candidateLine)
+        candidateLine := na
+
+    if not na(candidateLabel)
+        label.delete(candidateLabel)
+        candidateLabel := na
+
+lastConfirmedPrice = array.size(confirmedPrices) > 0 ? array.get(confirmedPrices, array.size(confirmedPrices) - 1) : na
+lastConfirmedType = array.size(confirmedTypes) > 0 ? array.get(confirmedTypes, array.size(confirmedTypes) - 1) : na
+
+plot(showDebug ? swingDir : na, title = "ZZ Swing Direction 1=Up -1=Down", display = display.data_window)
+plot(showDebug ? lastConfirmedPrice : na, title = "Last Confirmed ZZ Price", display = display.data_window)
+plot(showDebug ? lastConfirmedType : na, title = "Last Confirmed ZZ Type 1=High -1=Low", display = display.data_window)
+plot(showDebug ? atrValue : na, title = "ATR Value", display = display.data_window)
+plot(showDebug ? reversalAmount(close) : na, title = "Current Reversal Amount", display = display.data_window)
+plot(showDebug ? array.size(confirmedPrices) : na, title = "Confirmed ZZ Count", display = display.data_window)
