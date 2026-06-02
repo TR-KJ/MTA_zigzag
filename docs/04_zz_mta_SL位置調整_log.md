@@ -112,6 +112,16 @@ ZZ Setting：ATR x 2.0
 RR：1.0
 ```
 
+##確認ポイント
+
+1. Zone Opposite が v1.0 と同じ結果になるか
+
+2. Setup Candle でSetup足のLow/HighがSLになるか
+
+3. PreBreak Pivot でSL用Pivotがない時はEntryしないか
+
+4. PreBreak Pivot でSL用Pivotがある時だけEntryするか
+
 ## 比較表テンプレート
 
 | MTA Type | Trigger | ZZ Setting | SL Mode | RR | Trades | Win Rate | PF | Max DD | Avg P/L | Memo |
