@@ -510,3 +510,13 @@ docs/03_zz_mta_b5_2_trigger_spec.md
 docs/04_zz_mta_strategy_results.md
 docs/05_pivot_mta_vs_zz_mta_comparison.md
 ```
+
+##ストラテジーv1.0でのBT結果後
+
+1. SL位置調整
+
+2. RR調整
+
+3. その後、時間帯フィルター
+
+4. 最後にHTF EMAフィルターなど環境フィルター
