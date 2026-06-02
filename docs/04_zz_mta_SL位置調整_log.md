@@ -127,9 +127,9 @@ RR：1.0
 | MTA Type | Trigger | ZZ Setting | SL Mode | RR | Trades | Win Rate | PF | Max DD | Avg P/L | Memo |
 |---|---|---|---|---:|---:|---:|---:|---:|---:|---|
 | ZZ-MTA | B5.2 | ATR x 2.0 | Zone Opposite | 1.0 | 542 | 42.99% | 0.330 | 1.01% | -18.64 | 現行 |
-| ZZ-MTA | B5.2 | ATR x 2.0 | Zone Body | 1.0 |  |  |  |  |  | 浅めSL |
-| ZZ-MTA | B5.2 | ATR x 2.0 | Setup Candle | 1.0 |  |  |  |  |  | Setup足SL |
-| ZZ-MTA | B5.2 | ATR x 2.0 | PreBreak Pivot | 1.0 |  |  |  |  |  | Trigger前Pivot SL |
+| ZZ-MTA | B5.2 | ATR x 2.0 | Zone Body | 1.0 | 650 | 30.62% | 0.237 | 1.14% | -17.51 | 浅めSL |
+| ZZ-MTA | B5.2 | ATR x 2.0 | Setup Candle | 1.0 | 616 | 32.47% | 0.258 | 1.15% | -18.63 | Setup足SL |
+| ZZ-MTA | B5.2 | ATR x 2.0 | PreBreak Pivot | 1.0 | 533 | 31.33% | 0.233 | 0.92% | -17.19 | Trigger前Pivot SL |
 
 ## 次の判断
 
