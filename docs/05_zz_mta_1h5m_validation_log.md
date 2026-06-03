@@ -314,10 +314,10 @@ ATR x 2.0 は固定し、RRとTrigger有効期限の周辺を確認する。
 
 | Setup TF | Trigger TF | ZZ Setting | SL Mode | RR | Trigger Expire | Trades | Win Rate | PF | Max DD | Avg P/L | Memo |
 |---|---|---|---|---:|---:|---:|---:|---:|---:|---:|---|
-| 1H | 5m | ATR x 2.0 | Zone Opposite | 2.0 | 180m |  |  |  |  |  |  |
-| 1H | 5m | ATR x 2.0 | Zone Opposite | 2.0 | 240m |  |  |  |  |  |  |
-| 1H | 5m | ATR x 2.0 | Zone Opposite | 2.25 | 180m |  |  |  |  |  |  |
-| 1H | 5m | ATR x 2.0 | Zone Opposite | 2.25 | 240m |  |  |  |  |  |  |
+| 1H | 5m | ATR x 2.0 | Zone Opposite | 2.0 | 180m | 114 | 48.25% | 1.51 | 0.06% | 19.14 |  |
+| 1H | 5m | ATR x 2.0 | Zone Opposite | 2.0 | 240m | 112 | 49.11% | 1.496 | 0.06% | 19.87 |  |
+| 1H | 5m | ATR x 2.0 | Zone Opposite | 2.25 | 180m | 112 | 43.75% | 1.296 | 0.07% | 12.58 |  |
+| 1H | 5m | ATR x 2.0 | Zone Opposite | 2.25 | 240m | 109 | 44.95% | 1.315 | 0.08% | 14.21 |  |
 | 1H | 5m | ATR x 2.0 | Zone Opposite | 2.5 | 180m | 109 | 44.04% | 1.481 | 0.07% | 20.25 | 取得済み |
 | 1H | 5m | ATR x 2.0 | Zone Opposite | 2.5 | 240m | 106 | 46.23% | 1.564 | 0.06% | 24.84 | 暫定ベスト |
 
