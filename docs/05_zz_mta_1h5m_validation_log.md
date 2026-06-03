@@ -249,10 +249,10 @@ PF・勝率が高いがTradesが少ない
 
 | Setup TF | Trigger TF | ZZ Setting | SL Mode | RR | Trigger Expire | Trades | Win Rate | PF | Max DD | Avg P/L | Memo |
 |---|---|---|---|---:|---:|---:|---:|---:|---:|---:|---|
-| 1H | 5m | ATR x 1.5 | Zone Opposite | 2.5 | 240m |  |  |  |  |  | 回数増加候補 |
+| 1H | 5m | ATR x 1.5 | Zone Opposite | 2.5 | 240m | 166 | 36.14% | 0.963 | 0.18% | -1.82 | 回数増加候補 |
 | 1H | 5m | ATR x 2.0 | Zone Opposite | 2.5 | 240m | 106 | 46.23% | 1.564 | 0.06% | 24.84 | 暫定ベスト |
-| 1H | 5m | ATR x 2.5 | Zone Opposite | 2.5 | 240m |  |  |  |  |  |  |
-| 1H | 5m | ATR x 3.0 | Zone Opposite | 2.5 | 240m |  |  |  |  |  |  |
+| 1H | 5m | ATR x 2.5 | Zone Opposite | 2.5 | 240m | 58 | 25.86% | 0.593 | 0.19% | -27.12 |  |
+| 1H | 5m | ATR x 3.0 | Zone Opposite | 2.5 | 240m | 46 | 23.91% | 0.331 | 0.25% | -51.25 |  |
 
 ### 2. トレード回数を増やす方向
 
