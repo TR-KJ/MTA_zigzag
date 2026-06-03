@@ -156,10 +156,11 @@ Short：Zone Top
 
 | MTA Type | Trigger | ZZ Setting | SL Mode | RR | Trades | Win Rate | PF | Max DD | Avg P/L | Memo |
 |---|---|---|---|---:|---:|---:|---:|---:|---:|---|
-| ZZ-MTA | B5.2 | ATR x 2.0 | Zone Opposite | 0.5| 542 | 42.99% | 0.330 | 1.01% | -18.64 | |
-| ZZ-MTA | B5.2 | ATR x 2.0 | Zone Opposite | 0.7| 650 | 30.62% | 0.237 | 1.14% | -17.51 |  |
-| ZZ-MTA | B5.2 | ATR x 2.0 | Zone Opposite |0.8| 616 | 32.47% | 0.258 | 1.15% | -18.63 |  |
+| ZZ-MTA | B5.2 | ATR x 2.0 | Zone Opposite | 0.5| 581 | 29.60% | 0.162 | 1.03% | -17.67 | |
+| ZZ-MTA | B5.2 | ATR x 2.0 | Zone Opposite | 0.7| 568 | 40.14% | 0.291 | 0.92% | -16.21 |  |
+| ZZ-MTA | B5.2 | ATR x 2.0 | Zone Opposite | 0.8| 560 | 41.07% | 0.303 | 0.97% | -17.40 |  |
 | ZZ-MTA | B5.2 | ATR x 2.0 | Zone Opposite | 1.0 | 542 | 42.99% | 0.330 | 1.01% | -18.64 | 現行 |
-| ZZ-MTA | B5.2 | ATR x 2.0 | Zone Opposite | 1.2 | 533 | 31.33% | 0.233 | 0.92% | -17.19 |  |
-| ZZ-MTA | B5.2 | ATR x 2.0 | Zone Opposite | 1.5 | 533 | 31.33% | 0.233 | 0.92% | -17.19 |  |
+| ZZ-MTA | B5.2 | ATR x 2.0 | Zone Opposite | 1.2 | 535 | 42.06% | 0.371 | 1.02% | -19.00 |  |
+| ZZ-MTA | B5.2 | ATR x 2.0 | Zone Opposite | 1.5 | 527 | 38.90% | 0.438 | 0.96% | -18.19 |  |
+| ZZ-MTA | B5.2 | ATR x 2.0 | Zone Opposite | 2.0 | 507 | 33.14% | 0.479 | 0.96% | -18.92 |  |
 
