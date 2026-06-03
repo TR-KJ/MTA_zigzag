@@ -118,3 +118,81 @@ request.security() 内で1時間ZZ-MTAを計算
 - HTF EMAフィルター
 - Trigger条件の見直し
 ```
+
+## 1H/5M 初回検証結果
+
+1時間足ZZ-MTA + 5分足B5.2 Triggerで初回BTを実施。
+
+### 条件
+
+```text
+Setup：1時間足ZZ-MTA
+Trigger：5分足B5.2 Fixed Pre Pivot Break
+ZZ Setting：ATR x 2.0
+SL Mode：Zone Opposite
+```
+
+### 結果
+
+| Setup TF | Trigger TF | ZZ Setting | SL Mode | RR | Trades | Win Rate | PF | Max DD | Avg P/L | Memo |
+|---|---|---|---|---:|---:|---:|---:|---:|---:|---|
+| 1H | 5m | ATR x 2.0 | Zone Opposite | 1.0 | 120 | 55.00% | 0.915 | 0.08% | -2.57 |  |
+| 1H | 5m | ATR x 2.0 | Zone Opposite | 1.5 | 118 | 49.15% | 1.193 | 0.05% | 6.78 |  |
+| 1H | 5m | ATR x 2.0 | Zone Opposite | 2.0 | 115 | 46.09% | 1.395 | 0.05% | 14.39 | 現時点ベスト |
+
+## 判断
+
+15m/1mではPFが伸びなかったが、1H/5Mでは明確に改善した。
+
+```text
+15m/1m RR 2.0：PF 0.479
+1H/5M RR 2.0：PF 1.395
+```
+
+現時点では、1H/5Mを主戦場候補として継続検証する。
+
+## 次に試すこと
+
+### 1. RR追加検証
+
+RR 2.0が現時点ベストのため、さらに上を確認する。
+
+| Setup TF | Trigger TF | ZZ Setting | SL Mode | RR | Trades | Win Rate | PF | Max DD | Avg P/L | Memo |
+|---|---|---|---|---:|---:|---:|---:|---:|---:|---|
+| 1H | 5m | ATR x 2.0 | Zone Opposite | 2.2 |  |  |  |  |  |  |
+| 1H | 5m | ATR x 2.0 | Zone Opposite | 2.5 |  |  |  |  |  |  |
+| 1H | 5m | ATR x 2.0 | Zone Opposite | 3.0 |  |  |  |  |  |  |
+
+### 2. Trigger有効期限検証
+
+5分足Triggerでは、既存の120分が長すぎるまたは短すぎる可能性があるため、有効期限を調整する。
+
+初期候補：
+
+```text
+30分
+60分
+90分
+120分
+180分
+240分
+300分
+```
+
+比較表：
+
+| Setup TF | Trigger TF | ZZ Setting | SL Mode | RR | Trigger Expire | Trades | Win Rate | PF | Max DD | Avg P/L | Memo |
+|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|---|
+| 1H | 5m | ATR x 2.0 | Zone Opposite | 2.0 | 30m |  |  |  |  |  |  |
+| 1H | 5m | ATR x 2.0 | Zone Opposite | 2.0 | 60m |  |  |  |  |  |  |
+| 1H | 5m | ATR x 2.0 | Zone Opposite | 2.0 | 90m |  |  |  |  |  |  |
+| 1H | 5m | ATR x 2.0 | Zone Opposite | 2.0 | 120m | 115 | 46.09% | 1.395 | 0.05% | 14.39 | 基準 |
+| 1H | 5m | ATR x 2.0 | Zone Opposite | 2.0 | 180m |  |  |  |  |  |  |
+| 1H | 5m | ATR x 2.0 | Zone Opposite | 2.0 | 240m |  |  |  |  |  |  |
+| 1H | 5m | ATR x 2.0 | Zone Opposite | 2.0 | 300m |  |  |  |  |  |  |
+
+## メモ
+
+1H/5Mでは、15m/1mよりノイズが減り、ZZ-MTAの波とB5.2 Triggerの相性が改善している可能性がある。
+
+次は、RRとTrigger有効期限を優先して確認する。
