@@ -360,3 +360,38 @@ ATR x 2.2
 ```
 
 Step 1で周辺が大きく崩れる場合は、暫定ベストがピンポイント最適化の可能性があるため、時間帯フィルターや別Trigger条件を検討する。
+
+## Step 1 結果：RR × Trigger Expire 周辺確認
+
+ATR x 2.0固定で、RR 2.0〜2.5 / Expire 180m〜240m を確認。
+
+| Setup TF | Trigger TF | ZZ Setting | SL Mode | RR | Trigger Expire | Trades | Win Rate | PF | Max DD | Avg P/L | Memo |
+|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|---|
+| 1H | 5m | ATR x 2.0 | Zone Opposite | 2.0 | 180m | 114 | 48.25% | 1.510 | 0.06% | 19.14 |  |
+| 1H | 5m | ATR x 2.0 | Zone Opposite | 2.0 | 240m | 112 | 49.11% | 1.496 | 0.06% | 19.87 |  |
+| 1H | 5m | ATR x 2.0 | Zone Opposite | 2.25 | 180m | 112 | 43.75% | 1.296 | 0.07% | 12.58 |  |
+| 1H | 5m | ATR x 2.0 | Zone Opposite | 2.25 | 240m | 109 | 44.95% | 1.315 | 0.08% | 14.21 |  |
+| 1H | 5m | ATR x 2.0 | Zone Opposite | 2.5 | 180m | 109 | 44.04% | 1.481 | 0.07% | 20.25 | 取得済み |
+| 1H | 5m | ATR x 2.0 | Zone Opposite | 2.5 | 240m | 106 | 46.23% | 1.564 | 0.06% | 24.84 | 暫定ベスト |
+
+### 判断
+
+RR 2.0〜2.5 / Expire 180m〜240m の範囲でPF 1.296〜1.564を維持。
+
+単発最適ではなく、一定のプラトーがある可能性あり。
+
+次はATR倍率の周辺確認へ進む。
+
+候補：
+
+| Setup TF | Trigger TF | ZZ Setting | SL Mode | RR | Trigger Expire | Trades | Win Rate | PF | Max DD | Avg P/L | Memo |
+|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|---|
+| 1H | 5m | ATR x 1.8 | Zone Opposite | 2.5 | 240m |  |  |  |  |  |  |
+| 1H | 5m | ATR x 2.0 | Zone Opposite | 2.5 | 240m | 106 | 46.23% | 1.564 | 0.06% | 24.84 | 暫定ベスト |
+| 1H | 5m | ATR x 2.2 | Zone Opposite | 2.5 | 240m |  |  |  |  |  |  |
+
+| Setup TF | Trigger TF | ZZ Setting | SL Mode | RR | Trigger Expire | Trades | Win Rate | PF | Max DD | Avg P/L | Memo |
+|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|---|
+| 1H | 5m | ATR x 1.8 | Zone Opposite | 2.0 | 240m |  |  |  |  |  | バランス型確認 |
+| 1H | 5m | ATR x 2.0 | Zone Opposite | 2.0 | 240m | 112 | 49.11% | 1.496 | 0.06% | 19.87 | バランス型 |
+| 1H | 5m | ATR x 2.2 | Zone Opposite | 2.0 | 240m |  |  |  |  |  | バランス型確認 |
