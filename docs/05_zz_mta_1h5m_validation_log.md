@@ -282,3 +282,81 @@ Tradesが少なすぎる場合は、以下を試す。
 3. 必要なら時間帯フィルター
 4. 必要ならHTF EMAフィルター
 ```
+
+## Step 1：RR × Trigger Expire 周辺確認
+
+暫定ベストが単発の最適値ではなく、周辺でも成績が安定するか確認する。
+
+目的は、いわゆる「崖」ではなく「プラトー」を探すこと。
+
+---
+
+## 基準条件
+
+```text
+Setup TF：1H
+Trigger TF：5m
+ZZ Setting：ATR x 2.0
+SL Mode：Zone Opposite
+```
+
+暫定ベスト：
+
+| Setup TF | Trigger TF | ZZ Setting | SL Mode | RR | Trigger Expire | Trades | Win Rate | PF | Max DD | Avg P/L | Memo |
+|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|---|
+| 1H | 5m | ATR x 2.0 | Zone Opposite | 2.5 | 240m | 106 | 46.23% | 1.564 | 0.06% | 24.84 | 暫定ベスト |
+
+---
+
+## 検証内容
+
+ATR x 2.0 は固定し、RRとTrigger有効期限の周辺を確認する。
+
+| Setup TF | Trigger TF | ZZ Setting | SL Mode | RR | Trigger Expire | Trades | Win Rate | PF | Max DD | Avg P/L | Memo |
+|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|---|
+| 1H | 5m | ATR x 2.0 | Zone Opposite | 2.0 | 180m |  |  |  |  |  |  |
+| 1H | 5m | ATR x 2.0 | Zone Opposite | 2.0 | 240m |  |  |  |  |  |  |
+| 1H | 5m | ATR x 2.0 | Zone Opposite | 2.25 | 180m |  |  |  |  |  |  |
+| 1H | 5m | ATR x 2.0 | Zone Opposite | 2.25 | 240m |  |  |  |  |  |  |
+| 1H | 5m | ATR x 2.0 | Zone Opposite | 2.5 | 180m | 109 | 44.04% | 1.481 | 0.07% | 20.25 | 取得済み |
+| 1H | 5m | ATR x 2.0 | Zone Opposite | 2.5 | 240m | 106 | 46.23% | 1.564 | 0.06% | 24.84 | 暫定ベスト |
+
+---
+
+## 判断基準
+
+以下を満たす組み合わせが複数あれば、プラトー候補とする。
+
+```text
+PF：1.2以上
+Trades：100前後以上
+Avg P/L：プラス
+Max DD：大きく悪化しない
+```
+
+---
+
+## 見るポイント
+
+```text
+1. RR 2.0〜2.5でPFが安定するか
+2. Expire 180m〜240mで大きく崩れないか
+3. Tradesを100前後維持できるか
+4. PFだけでなく、Avg P/LとMax DDも確認する
+```
+
+---
+
+## 次の判断
+
+Step 1で周辺も安定するなら、次はATR倍率の微調整へ進む。
+
+候補：
+
+```text
+ATR x 1.8
+ATR x 2.0
+ATR x 2.2
+```
+
+Step 1で周辺が大きく崩れる場合は、暫定ベストがピンポイント最適化の可能性があるため、時間帯フィルターや別Trigger条件を検討する。
