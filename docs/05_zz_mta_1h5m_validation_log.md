@@ -386,12 +386,12 @@ RR 2.0〜2.5 / Expire 180m〜240m の範囲でPF 1.296〜1.564を維持。
 
 | Setup TF | Trigger TF | ZZ Setting | SL Mode | RR | Trigger Expire | Trades | Win Rate | PF | Max DD | Avg P/L | Memo |
 |---|---|---|---|---:|---:|---:|---:|---:|---:|---:|---|
-| 1H | 5m | ATR x 1.8 | Zone Opposite | 2.5 | 240m |  |  |  |  |  |  |
+| 1H | 5m | ATR x 1.8 | Zone Opposite | 2.5 | 240m | 128 | 35.94% | 0.97 | 0.14% | -1.83 |  |
 | 1H | 5m | ATR x 2.0 | Zone Opposite | 2.5 | 240m | 106 | 46.23% | 1.564 | 0.06% | 24.84 | 暫定ベスト |
-| 1H | 5m | ATR x 2.2 | Zone Opposite | 2.5 | 240m |  |  |  |  |  |  |
+| 1H | 5m | ATR x 2.2 | Zone Opposite | 2.5 | 240m | 81 | 41.98% | 1.37 | 0.13% | 17.61 |  |
 
 | Setup TF | Trigger TF | ZZ Setting | SL Mode | RR | Trigger Expire | Trades | Win Rate | PF | Max DD | Avg P/L | Memo |
 |---|---|---|---|---:|---:|---:|---:|---:|---:|---:|---|
-| 1H | 5m | ATR x 1.8 | Zone Opposite | 2.0 | 240m |  |  |  |  |  | バランス型確認 |
+| 1H | 5m | ATR x 1.8 | Zone Opposite | 2.0 | 240m | 135 | 40.74% | 1.076 | 0.09% | 3.13 | バランス型確認 |
 | 1H | 5m | ATR x 2.0 | Zone Opposite | 2.0 | 240m | 112 | 49.11% | 1.496 | 0.06% | 19.87 | バランス型 |
-| 1H | 5m | ATR x 2.2 | Zone Opposite | 2.0 | 240m |  |  |  |  |  | バランス型確認 |
+| 1H | 5m | ATR x 2.2 | Zone Opposite | 2.0 | 240m | 83 | 44.58% | 1.241 | 0.12% | 10.82 | バランス型確認 |
