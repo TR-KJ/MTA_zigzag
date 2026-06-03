@@ -89,9 +89,9 @@ request.security() 内で1時間ZZ-MTAを計算
 
 | Setup TF | Trigger TF | ZZ Setting | SL Mode | RR | Trades | Win Rate | PF | Max DD | Avg P/L | Memo |
 |---|---|---|---|---:|---:|---:|---:|---:|---:|---|
-| 1H | 5m | ATR x 2.0 | Zone Opposite | 1.0 |  |  |  |  |  |  |
-| 1H | 5m | ATR x 2.0 | Zone Opposite | 1.5 |  |  |  |  |  |  |
-| 1H | 5m | ATR x 2.0 | Zone Opposite | 2.0 |  |  |  |  |  |  |
+| 1H | 5m | ATR x 2.0 | Zone Opposite | 1.0 | 120 | 55.00% | 0.915 | 0.08% | -2.57 |  |
+| 1H | 5m | ATR x 2.0 | Zone Opposite | 1.5 | 118 | 49.15% | 1.193 | 0.05% | 6.78 |  |
+| 1H | 5m | ATR x 2.0 | Zone Opposite | 2.0 | 115 | 46.09% | 1.395 | 0.05% | 14.39 |  |
 
 ---
 
