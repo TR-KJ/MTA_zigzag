@@ -196,3 +196,89 @@ RR 2.0が現時点ベストのため、さらに上を確認する。
 1H/5Mでは、15m/1mよりノイズが減り、ZZ-MTAの波とB5.2 Triggerの相性が改善している可能性がある。
 
 次は、RRとTrigger有効期限を優先して確認する。
+
+## 暫定ベスト条件
+
+1H/5M検証における現時点の暫定ベスト。
+
+| Setup TF | Trigger TF | ZZ Setting | SL Mode | RR | Trigger Expire | Trades | Win Rate | PF | Max DD | Avg P/L | Memo |
+|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|---|
+| 1H | 5m | ATR x 2.0 | Zone Opposite | 2.5 | 240m | 106 | 46.23% | 1.564 | 0.06% | 24.84 | 暫定ベスト |
+
+## 判断
+
+15m/1mではPFが伸びなかったが、1H/5Mでは明確に改善。
+
+現時点では以下を主戦場候補とする。
+
+```text
+Setup：1時間足ZZ-MTA
+Trigger：5分足B5.2 Fixed Pre Pivot Break
+ZZ Setting：ATR x 2.0
+SL Mode：Zone Opposite
+RR：2.5
+Trigger Expire：240m
+```
+
+## トレード回数について
+
+実運用を見据える場合、PFや勝率だけでなく、トレード回数も重要。
+
+```text
+PF・勝率が高いがTradesが少ない
+↓
+資金効率が落ちる可能性あり
+```
+
+今後は、以下を同時に見る。
+
+```text
+- PF
+- Win Rate
+- Max DD
+- Avg P/L
+- Trades
+- 資金効率
+```
+
+## 今後の検証方針
+
+### 1. ATR倍率調整
+
+まずは暫定ベスト条件を基準に、ZZ-MTAの波の粗さを調整する。
+
+| Setup TF | Trigger TF | ZZ Setting | SL Mode | RR | Trigger Expire | Trades | Win Rate | PF | Max DD | Avg P/L | Memo |
+|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|---|
+| 1H | 5m | ATR x 1.5 | Zone Opposite | 2.5 | 240m |  |  |  |  |  | 回数増加候補 |
+| 1H | 5m | ATR x 2.0 | Zone Opposite | 2.5 | 240m | 106 | 46.23% | 1.564 | 0.06% | 24.84 | 暫定ベスト |
+| 1H | 5m | ATR x 2.5 | Zone Opposite | 2.5 | 240m |  |  |  |  |  |  |
+| 1H | 5m | ATR x 3.0 | Zone Opposite | 2.5 | 240m |  |  |  |  |  |  |
+
+### 2. トレード回数を増やす方向
+
+Tradesが少なすぎる場合は、以下を試す。
+
+```text
+- ATR倍率を下げる
+- Trigger有効期限を延ばす
+- RRを少し下げる
+- Trigger条件を緩める
+```
+
+ただし、回数を増やしてPFや勝率が落ちた場合は、次にフィルターを追加する。
+
+```text
+- 時間帯フィルター
+- HTF EMAフィルター
+- 曜日フィルター
+- ボラティリティフィルター
+```
+
+## 次の優先順位
+
+```text
+1. ATR倍率調整
+2. TradesとPFのバランス確認
+3. 必要なら時間帯フィルター
+4. 必要ならHTF EMAフィルター
+```
