@@ -382,16 +382,38 @@ RR 2.0〜2.5 / Expire 180m〜240m の範囲でPF 1.296〜1.564を維持。
 
 次はATR倍率の周辺確認へ進む。
 
-候補：
+## Step 2 結果：ATR倍率周辺確認
+
+RR 2.5 / Expire 240m と、RR 2.0 / Expire 240m の2系統でATR倍率を確認。
+
+### RR 2.5 / Expire 240m
 
 | Setup TF | Trigger TF | ZZ Setting | SL Mode | RR | Trigger Expire | Trades | Win Rate | PF | Max DD | Avg P/L | Memo |
 |---|---|---|---|---:|---:|---:|---:|---:|---:|---:|---|
-| 1H | 5m | ATR x 1.8 | Zone Opposite | 2.5 | 240m | 128 | 35.94% | 0.97 | 0.14% | -1.83 |  |
+| 1H | 5m | ATR x 1.8 | Zone Opposite | 2.5 | 240m | 128 | 35.94% | 0.970 | 0.14% | -1.83 | 回数増えるが崩れる |
 | 1H | 5m | ATR x 2.0 | Zone Opposite | 2.5 | 240m | 106 | 46.23% | 1.564 | 0.06% | 24.84 | 暫定ベスト |
-| 1H | 5m | ATR x 2.2 | Zone Opposite | 2.5 | 240m | 81 | 41.98% | 1.37 | 0.13% | 17.61 |  |
+| 1H | 5m | ATR x 2.2 | Zone Opposite | 2.5 | 240m | 81 | 41.98% | 1.370 | 0.13% | 17.61 | 回数減 |
+
+### RR 2.0 / Expire 240m
 
 | Setup TF | Trigger TF | ZZ Setting | SL Mode | RR | Trigger Expire | Trades | Win Rate | PF | Max DD | Avg P/L | Memo |
 |---|---|---|---|---:|---:|---:|---:|---:|---:|---:|---|
-| 1H | 5m | ATR x 1.8 | Zone Opposite | 2.0 | 240m | 135 | 40.74% | 1.076 | 0.09% | 3.13 | バランス型確認 |
+| 1H | 5m | ATR x 1.8 | Zone Opposite | 2.0 | 240m | 135 | 40.74% | 1.076 | 0.09% | 3.13 | 回数増えるが弱い |
 | 1H | 5m | ATR x 2.0 | Zone Opposite | 2.0 | 240m | 112 | 49.11% | 1.496 | 0.06% | 19.87 | バランス型 |
-| 1H | 5m | ATR x 2.2 | Zone Opposite | 2.0 | 240m | 83 | 44.58% | 1.241 | 0.12% | 10.82 | バランス型確認 |
+| 1H | 5m | ATR x 2.2 | Zone Opposite | 2.0 | 240m | 83 | 44.58% | 1.241 | 0.12% | 10.82 | 回数減 |
+
+### 判断
+
+ATR倍率は x2.0 が最も安定。
+
+ATR x1.8 はTradesは増えるがPFが大きく低下。  
+ATR x2.2 はPFは残るがTradesが減る。
+
+よって、次は以下の2候補を主軸とする。
+
+| Type | ATR | RR | Expire | Trades | PF | Memo |
+|---|---:|---:|---:|---:|---:|---|
+| 攻め型 | 2.0 | 2.5 | 240m | 106 | 1.564 | Avg P/L重視 |
+| バランス型 | 2.0 | 2.0 | 240m | 112 | 1.496 | 勝率・回数重視 |
+
+次は時間帯別の成績確認を検討する。
