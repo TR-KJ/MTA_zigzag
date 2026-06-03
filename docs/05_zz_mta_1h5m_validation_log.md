@@ -159,9 +159,9 @@ RR 2.0が現時点ベストのため、さらに上を確認する。
 
 | Setup TF | Trigger TF | ZZ Setting | SL Mode | RR | Trades | Win Rate | PF | Max DD | Avg P/L | Memo |
 |---|---|---|---|---:|---:|---:|---:|---:|---:|---|
-| 1H | 5m | ATR x 2.0 | Zone Opposite | 2.2 |  |  |  |  |  |  |
-| 1H | 5m | ATR x 2.0 | Zone Opposite | 2.5 |  |  |  |  |  |  |
-| 1H | 5m | ATR x 2.0 | Zone Opposite | 3.0 |  |  |  |  |  |  |
+| 1H | 5m | ATR x 2.0 | Zone Opposite | 2.2 | 113 | 42.48% | 1.299 | 0.05% | 11.87 |  |
+| 1H | 5m | ATR x 2.0 | Zone Opposite | 2.5 | 111 | 40.54% | 1.439 | 0.06% | 17.89 |  |
+| 1H | 5m | ATR x 2.0 | Zone Opposite | 3.0 | 107 | 33.64% | 1.345 | 0.08% | 15.62 |  |
 
 ### 2. Trigger有効期限検証
 
