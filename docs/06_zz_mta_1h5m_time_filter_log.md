@@ -98,7 +98,8 @@ Time Filter：Trade 09-24
 4. 他通貨でやるなら、同じパラメーターを流用せず、別手法扱いで検証
 
 ## OOS-A  
-IS 2021/01/01から2024/12/31  OOS 2025/01/01から2025/12/31
+IS 2021/01/01から2024/12/31  
+OOS 2025/01/01から2025/12/31
 
 | Pair | Period Type | Period | Type | Setup TF | Trigger TF | ATR | SL Mode | Time Filter | RR | Expire | Trades | Win Rate | PF | Max DD | Avg P/L | Memo |
 |---|---|---|---|---|---|---:|---|---|---:|---:|---:|---:|---:|---:|---:|---|
@@ -109,7 +110,9 @@ IS 2021/01/01から2024/12/31  OOS 2025/01/01から2025/12/31
 | USDJPY | IS |  | 回数寄り | 1H | 5m | 2.0 | Zone Opposite | Trade 09-24 | 2.0 | 300m | 93 | 51.61% | 1.595 | 0.05% | 25.01 | Trades重視 |
 | USDJPY | OOS |  | 回数寄り | 1H | 5m | 2.0 | Zone Opposite | Trade 09-24 | 2.0 | 300m |  |  |  |  |  |  |
 
-## OOS-B IS 20210101~20240630  OOS 20240701~20251231
+## OOS-B 
+IS 2021/01/01~から2024/06/30  
+OOS 2024/07/01から2025/12/31
 
 | Pair | Period Type | Period | Type | Setup TF | Trigger TF | ATR | SL Mode | Time Filter | RR | Expire | Trades | Win Rate | PF | Max DD | Avg P/L | Memo |
 |---|---|---|---|---|---|---:|---|---|---:|---:|---:|---:|---:|---:|---:|---|
