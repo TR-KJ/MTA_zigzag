@@ -103,12 +103,12 @@ OOS 2025/01/01から2025/12/31
 
 | Pair | Period Type | Period | Type | Setup TF | Trigger TF | ATR | SL Mode | Time Filter | RR | Expire | Trades | Win Rate | PF | Max DD | Avg P/L | Memo |
 |---|---|---|---|---|---|---:|---|---|---:|---:|---:|---:|---:|---:|---:|---|
-| USDJPY | IS |  | 攻め型 | 1H | 5m | 2.0 | Zone Opposite | Trade 09-24 | 2.5 | 240m | 83 | 50.60% | 1.908 | 0.05% | 35.86 | 現本命 |
-| USDJPY | OOS |  | 攻め型 | 1H | 5m | 2.0 | Zone Opposite | Trade 09-24 | 2.5 | 240m |  |  |  |  |  |  |
-| USDJPY | IS |  | 安定型 | 1H | 5m | 2.0 | Zone Opposite | Trade 09-24 | 2.0 | 240m | 86 | 52.33% | 1.734 | 0.04% | 27.17 | 勝率重視 |
-| USDJPY | OOS |  | 安定型 | 1H | 5m | 2.0 | Zone Opposite | Trade 09-24 | 2.0 | 240m |  |  |  |  |  |  |
-| USDJPY | IS |  | 回数寄り | 1H | 5m | 2.0 | Zone Opposite | Trade 09-24 | 2.0 | 300m | 93 | 51.61% | 1.595 | 0.05% | 25.01 | Trades重視 |
-| USDJPY | OOS |  | 回数寄り | 1H | 5m | 2.0 | Zone Opposite | Trade 09-24 | 2.0 | 300m |  |  |  |  |  |  |
+| USDJPY | IS |  | 攻め型 | 1H | 5m | 2.0 | Zone Opposite | Trade 09-24 | 2.5 | 240m | 63 | 49.21% | 1.911 | 0.05% | 37.38 | 現本命 |
+| USDJPY | OOS |  | 攻め型 | 1H | 5m | 2.0 | Zone Opposite | Trade 09-24 | 2.5 | 240m | 20 | 55.00% | 1.891 | 0.06% | 30.62 |  |
+| USDJPY | IS |  | 安定型 | 1H | 5m | 2.0 | Zone Opposite | Trade 09-24 | 2.0 | 240m | 65 | 52.31% | 1.840 | 0.04% | 31.35 | 勝率重視 |
+| USDJPY | OOS |  | 安定型 | 1H | 5m | 2.0 | Zone Opposite | Trade 09-24 | 2.0 | 240m | 21 | 52.38% | 1.399 | 0.04% | 13.50 |  |
+| USDJPY | IS |  | 回数寄り | 1H | 5m | 2.0 | Zone Opposite | Trade 09-24 | 2.0 | 300m | 71 | 50.70% | 1.667 | 0.04% | 28.32 | Trades重視 |
+| USDJPY | OOS |  | 回数寄り | 1H | 5m | 2.0 | Zone Opposite | Trade 09-24 | 2.0 | 300m | 22 | 54.55% | 1.359 | 0.03% | 13.80 |  |
 
 ## OOS-B 
 IS 2021/01/01~から2024/06/30  
