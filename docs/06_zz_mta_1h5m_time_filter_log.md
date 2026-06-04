@@ -110,15 +110,81 @@ OOS 2025/01/01から2025/12/31
 | USDJPY | IS |  | 回数寄り | 1H | 5m | 2.0 | Zone Opposite | Trade 09-24 | 2.0 | 300m | 71 | 50.70% | 1.667 | 0.04% | 28.32 | Trades重視 |
 | USDJPY | OOS |  | 回数寄り | 1H | 5m | 2.0 | Zone Opposite | Trade 09-24 | 2.0 | 300m | 22 | 54.55% | 1.359 | 0.03% | 13.80 |  |
 
-## OOS-B 
-IS 2021/01/01~から2024/06/30  
-OOS 2024/07/01から2025/12/31
+## フォワード検証へ移行
 
-| Pair | Period Type | Period | Type | Setup TF | Trigger TF | ATR | SL Mode | Time Filter | RR | Expire | Trades | Win Rate | PF | Max DD | Avg P/L | Memo |
-|---|---|---|---|---|---|---:|---|---|---:|---:|---:|---:|---:|---:|---:|---|
-| USDJPY | IS |  | 攻め型 | 1H | 5m | 2.0 | Zone Opposite | Trade 09-24 | 2.5 | 240m | 83 | 50.60% | 1.908 | 0.05% | 35.86 | 現本命 |
-| USDJPY | OOS |  | 攻め型 | 1H | 5m | 2.0 | Zone Opposite | Trade 09-24 | 2.5 | 240m |  |  |  |  |  |  |
-| USDJPY | IS |  | 安定型 | 1H | 5m | 2.0 | Zone Opposite | Trade 09-24 | 2.0 | 240m | 86 | 52.33% | 1.734 | 0.04% | 27.17 | 勝率重視 |
-| USDJPY | OOS |  | 安定型 | 1H | 5m | 2.0 | Zone Opposite | Trade 09-24 | 2.0 | 240m |  |  |  |  |  |  |
-| USDJPY | IS |  | 回数寄り | 1H | 5m | 2.0 | Zone Opposite | Trade 09-24 | 2.0 | 300m | 93 | 51.61% | 1.595 | 0.05% | 25.01 | Trades重視 |
-| USDJPY | OOS |  | 回数寄り | 1H | 5m | 2.0 | Zone Opposite | Trade 09-24 | 2.0 | 300m |  |  |  |  |  |  |
+OOS-Aで3候補すべてがPF 1.0を上回り、Avg P/Lもプラスだったため、フォワード検証へ移行する。
+
+### OOS-A 期間
+
+```text
+IS：2021/01/01〜2024/12/31
+OOS：2025/01/01〜2025/12/31
+```
+
+### OOS-A 判断
+
+| Type | IS PF | OOS PF | OOS Trades | OOS Avg P/L | Judge |
+|---|---:|---:|---:|---:|---|
+| 攻め型 | 1.911 | 1.891 | 20 | 30.62 | 合格 |
+| 安定型 | 1.840 | 1.399 | 21 | 13.50 | 合格 |
+| 回数寄り | 1.667 | 1.359 | 22 | 13.80 | 合格 |
+
+## フォワード対象
+
+まずは以下の2候補を優先する。
+
+| Priority | Type | Pair | Setup TF | Trigger TF | ATR | SL Mode | Time Filter | RR | Expire | Memo |
+|---|---|---|---|---|---:|---|---|---:|---:|---|
+| 1 | 攻め型 | USDJPY | 1H | 5m | 2.0 | Zone Opposite | Trade 09-24 | 2.5 | 240m | 第一候補 |
+| 2 | 安定型 | USDJPY | 1H | 5m | 2.0 | Zone Opposite | Trade 09-24 | 2.0 | 240m | 比較候補 |
+| 3 | 回数寄り | USDJPY | 1H | 5m | 2.0 | Zone Opposite | Trade 09-24 | 2.0 | 300m | 補欠 |
+
+## フォワードの目的
+
+フォワードでは利益額より、BTとの挙動一致を重視する。
+
+確認項目：
+
+```text
+1. TradingView上のシグナルが想定通り出るか
+2. 1H ZZ-MTA Zoneと5m Triggerの挙動がBT・リプレイと一致するか
+3. Entry時刻がTrade 09-24内に限定されているか
+4. SL/TPが想定通り配置されるか
+5. スプレッド・スリッページで期待値が大きく崩れないか
+6. エントリー頻度がBT想定から大きくズレないか
+```
+
+## フォワード記録表
+
+| Date | Pair | Type | Signal Time JST | Direction | Entry | SL | TP | Result | P/L | Memo |
+|---|---|---|---|---|---:|---:|---:|---|---:|---|
+|  | USDJPY | 攻め型 |  |  |  |  |  |  |  |  |
+|  | USDJPY | 安定型 |  |  |  |  |  |  |  |  |
+
+## 週次集計表
+
+| Week | Type | Signals | Trades | Wins | Losses | Win Rate | PF | Net P/L | Memo |
+|---|---|---:|---:|---:|---:|---:|---:|---:|---|
+|  | 攻め型 |  |  |  |  |  |  |  |  |
+|  | 安定型 |  |  |  |  |  |  |  |  |
+
+## 判断基準
+
+```text
+短期の勝ち負けで判断しない。
+まずは20〜30トレード程度まで挙動確認を優先する。
+```
+
+暫定基準：
+
+| Judge | Criteria |
+|---|---|
+| 継続 | BTと挙動が一致し、PF 1.0以上またはAvg P/Lプラス |
+| 条件付き継続 | PF 1.0未満でも、挙動一致・DD小・サンプル不足 |
+| 停止検討 | BTと挙動が違う、または想定外のEntry/SL/TPが発生 |
+| 停止 | 重大なロジック不一致、連続した想定外損失 |
+
+## 注意
+
+現時点ではUSDJPY専用候補として扱う。  
+他通貨ペアでは同条件の再現性が低かったため、汎用FX手法ではなく、USDJPYの時間帯・波形特性に依存した手法として検証する。
