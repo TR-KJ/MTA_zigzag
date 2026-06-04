@@ -23,7 +23,7 @@ rr = input.float(1.0, "利確RR", minval = 0.1, step = 0.1, group = "Strategy")
 slMode = input.string("Zone Opposite", "SL Mode", options = ["Zone Opposite", "Zone Body", "Setup Candle", "PreBreak Pivot"], group = "Strategy")
 
 useTimeFilter = input.bool(true, "Time Filterを有効化", group = "Time Filter")
-timeFilterMode = input.string("All", "Time Filter Mode", options = ["All", "Tokyo 09-15", "Europe 15-21", "NY 21-03"], group = "Time Filter")
+timeFilterMode = input.string("All", "Time Filter Mode", options = ["All", "Tokyo 09-15", "Europe 15-21", "NY 21-03", "Early Asia 03-09"], group = "Time Filter")
 timeZoneInput = input.string("Asia/Tokyo", "Time Filter Timezone", group = "Time Filter")
 
 showHtfMtaZone = input.bool(true, "HTF ZZ-MTAゾーンを表示", group = "表示")
@@ -59,6 +59,7 @@ currentHourJst = hour(time, timeZoneInput)
 inTokyo = currentHourJst >= 9 and currentHourJst < 15
 inEurope = currentHourJst >= 15 and currentHourJst < 21
 inNy = currentHourJst >= 21 or currentHourJst < 3
+inEarlyAsia = currentHourJst >= 3 and currentHourJst < 9
 
 timeFilterSessionOk = false
 
@@ -73,6 +74,9 @@ if timeFilterMode == "Europe 15-21"
 
 if timeFilterMode == "NY 21-03"
     timeFilterSessionOk := inNy
+
+if timeFilterMode == "Early Asia 03-09"
+    timeFilterSessionOk := inEarlyAsia
 
 timeFilterOk = not useTimeFilter or timeFilterSessionOk
 
