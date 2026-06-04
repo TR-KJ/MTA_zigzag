@@ -612,6 +612,23 @@ Early Asia 03-09 を除外することで、Tradesを大きく減らさずPFとA
 
 次は `Trade 09-24` 固定で、RR周辺確認を行う。
 
+##　プラトー探索
+
+| Setup TF | Trigger TF | ATR | SL Mode | Time Filter | RR | Expire | Trades | Win Rate | PF | Max DD | Avg P/L | Memo |
+|---|---|---:|---|---|---:|---:|---:|---:|---:|---:|---:|---|
+| 1H | 5m | 2.0 | Zone Opposite | Trade 09-24 | 2.0 | 180m |  |  |  |  |  |  |
+| 1H | 5m | 2.0 | Zone Opposite | Trade 09-24 | 2.0 | 240m | 86 | 52.33% | 1.734 | 0.04% | 27.17 | 取得済み |
+| 1H | 5m | 2.0 | Zone Opposite | Trade 09-24 | 2.0 | 300m |  |  |  |  |  |  |
+| 1H | 5m | 2.0 | Zone Opposite | Trade 09-24 | 2.25 | 180m |  |  |  |  |  |  |
+| 1H | 5m | 2.0 | Zone Opposite | Trade 09-24 | 2.25 | 240m |  |  |  |  |  |  |
+| 1H | 5m | 2.0 | Zone Opposite | Trade 09-24 | 2.25 | 300m |  |  |  |  |  |  |
+| 1H | 5m | 2.0 | Zone Opposite | Trade 09-24 | 2.5 | 180m |  |  |  |  |  |  |
+| 1H | 5m | 2.0 | Zone Opposite | Trade 09-24 | 2.5 | 240m | 83 | 50.60% | 1.908 | 0.05% | 35.86 | 現本命 |
+| 1H | 5m | 2.0 | Zone Opposite | Trade 09-24 | 2.5 | 300m |  |  |  |  |  |  |
+| 1H | 5m | 2.0 | Zone Opposite | Trade 09-24 | 2.75 | 180m |  |  |  |  |  |  |
+| 1H | 5m | 2.0 | Zone Opposite | Trade 09-24 | 2.75 | 240m |  |  |  |  |  |  |
+| 1H | 5m | 2.0 | Zone Opposite | Trade 09-24 | 2.75 | 300m |  |  |  |  |  |  |
+
 ##次
 
 1. Trade 09-24固定でRR/Expireのプラトー確認
