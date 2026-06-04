@@ -663,11 +663,11 @@ Trade 09-24でプラトーを確認できたため、次はトレード回数増
 | Setup TF | Trigger TF | ATR | SL Mode | Time Filter | RR | Expire | Trades | Win Rate | PF | Max DD | Avg P/L | Memo |
 |---|---|---:|---|---|---:|---:|---:|---:|---:|---:|---:|---|
 | 1H | 5m | 2.0 | Zone Opposite | Trade 09-24 | 2.5 | 240m | 83 | 50.60% | 1.908 | 0.05% | 35.86 | 攻め型基準 |
-| 1H | 5m | 2.0 | Zone Opposite | Trade 08-24 | 2.5 | 240m |  |  |  |  |  | 08時台追加 |
+| 1H | 5m | 2.0 | Zone Opposite | Trade 08-24 | 2.5 | 240m | 85 | 49.41% | 1.827 | 0.04% | 33.24 | 08時台追加 |
 | 1H | 5m | 2.0 | Zone Opposite | Trade 09-24 | 2.0 | 240m | 86 | 52.33% | 1.734 | 0.04% | 27.17 | 安定型基準 |
-| 1H | 5m | 2.0 | Zone Opposite | Trade 08-24 | 2.0 | 240m |  |  |  |  |  | 08時台追加 |
+| 1H | 5m | 2.0 | Zone Opposite | Trade 08-24 | 2.0 | 240m | 88 | 51.14% | 1.660 | 0.04% | 24.87 | 08時台追加 |
 | 1H | 5m | 2.0 | Zone Opposite | Trade 09-24 | 2.0 | 300m | 93 | 51.61% | 1.595 | 0.05% | 25.01 | 回数寄り基準 |
-| 1H | 5m | 2.0 | Zone Opposite | Trade 08-24 | 2.0 | 300m |  |  |  |  |  | 08時台追加 |
+| 1H | 5m | 2.0 | Zone Opposite | Trade 08-24 | 2.0 | 300m | 96 | 50.00% | 1.511 | 0.06% | 21.90 | 08時台追加 |
 
 ### 判断基準
 
