@@ -616,18 +616,18 @@ Early Asia 03-09 を除外することで、Tradesを大きく減らさずPFとA
 
 | Setup TF | Trigger TF | ATR | SL Mode | Time Filter | RR | Expire | Trades | Win Rate | PF | Max DD | Avg P/L | Memo |
 |---|---|---:|---|---|---:|---:|---:|---:|---:|---:|---:|---|
-| 1H | 5m | 2.0 | Zone Opposite | Trade 09-24 | 2.0 | 180m |  |  |  |  |  |  |
+| 1H | 5m | 2.0 | Zone Opposite | Trade 09-24 | 2.0 | 180m | 88 | 52.27% | 1.701 | 0.04% | 24.56 |  |
 | 1H | 5m | 2.0 | Zone Opposite | Trade 09-24 | 2.0 | 240m | 86 | 52.33% | 1.734 | 0.04% | 27.17 | 取得済み |
-| 1H | 5m | 2.0 | Zone Opposite | Trade 09-24 | 2.0 | 300m |  |  |  |  |  |  |
-| 1H | 5m | 2.0 | Zone Opposite | Trade 09-24 | 2.25 | 180m |  |  |  |  |  |  |
-| 1H | 5m | 2.0 | Zone Opposite | Trade 09-24 | 2.25 | 240m |  |  |  |  |  |  |
-| 1H | 5m | 2.0 | Zone Opposite | Trade 09-24 | 2.25 | 300m |  |  |  |  |  |  |
-| 1H | 5m | 2.0 | Zone Opposite | Trade 09-24 | 2.5 | 180m |  |  |  |  |  |  |
+| 1H | 5m | 2.0 | Zone Opposite | Trade 09-24 | 2.0 | 300m | 93 | 51.61% | 1.595 | 0.05% | 25.01 |  |
+| 1H | 5m | 2.0 | Zone Opposite | Trade 09-24 | 2.25 | 180m | 88 | 48.86% | 1.508 | 0.06% | 20.08 |  |
+| 1H | 5m | 2.0 | Zone Opposite | Trade 09-24 | 2.25 | 240m | 84 | 50.00% | 1.664 | 0.06% | 26.44 |  |
+| 1H | 5m | 2.0 | Zone Opposite | Trade 09-24 | 2.25 | 300m | 93 | 46.24% | 1.318 | 0.09% | 15.37 |  |
+| 1H | 5m | 2.0 | Zone Opposite | Trade 09-24 | 2.5 | 180m | 87 | 48.28% | 1.639 | 0.07% | 25.70 |  |
 | 1H | 5m | 2.0 | Zone Opposite | Trade 09-24 | 2.5 | 240m | 83 | 50.60% | 1.908 | 0.05% | 35.86 | 現本命 |
-| 1H | 5m | 2.0 | Zone Opposite | Trade 09-24 | 2.5 | 300m |  |  |  |  |  |  |
-| 1H | 5m | 2.0 | Zone Opposite | Trade 09-24 | 2.75 | 180m |  |  |  |  |  |  |
-| 1H | 5m | 2.0 | Zone Opposite | Trade 09-24 | 2.75 | 240m |  |  |  |  |  |  |
-| 1H | 5m | 2.0 | Zone Opposite | Trade 09-24 | 2.75 | 300m |  |  |  |  |  |  |
+| 1H | 5m | 2.0 | Zone Opposite | Trade 09-24 | 2.5 | 300m | 90 | 45.56% | 1.458 | 0.08% | 22.65 |  |
+| 1H | 5m | 2.0 | Zone Opposite | Trade 09-24 | 2.75 | 180m | 87 | 45.98% | 1.569 | 0.07% | 24.34 |  |
+| 1H | 5m | 2.0 | Zone Opposite | Trade 09-24 | 2.75 | 240m | 82 | 47.56% | 1.808 | 0.06% | 34.56 |  |
+| 1H | 5m | 2.0 | Zone Opposite | Trade 09-24 | 2.75 | 300m | 89 | 43.82% | 1.463 | 0.09% | 23.98 |  |
 
 ##次
 
