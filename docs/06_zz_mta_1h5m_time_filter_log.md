@@ -97,7 +97,7 @@ Time Filter：Trade 09-24
 
 4. 他通貨でやるなら、同じパラメーターを流用せず、別手法扱いで検証
 
-## OOS-A  IS 20210101~20241231  OOS 20250101~20251231
+## OOS-A  IS 2021/01/01~2024/12/31  OOS 2025/01/01~2025/12/31
 
 | Pair | Period Type | Period | Type | Setup TF | Trigger TF | ATR | SL Mode | Time Filter | RR | Expire | Trades | Win Rate | PF | Max DD | Avg P/L | Memo |
 |---|---|---|---|---|---|---:|---|---|---:|---:|---:|---:|---:|---:|---:|---|
