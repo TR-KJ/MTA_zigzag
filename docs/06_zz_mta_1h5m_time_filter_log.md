@@ -96,3 +96,25 @@ Time Filter：Trade 09-24
 3. 他通貨ペアは一旦追わない
 
 4. 他通貨でやるなら、同じパラメーターを流用せず、別手法扱いで検証
+
+## OOS-A  IS 20210101~20241231  OOS 20250101~20251231
+
+| Pair | Period Type | Period | Type | Setup TF | Trigger TF | ATR | SL Mode | Time Filter | RR | Expire | Trades | Win Rate | PF | Max DD | Avg P/L | Memo |
+|---|---|---|---|---|---|---:|---|---|---:|---:|---:|---:|---:|---:|---:|---|
+| USDJPY | IS |  | 攻め型 | 1H | 5m | 2.0 | Zone Opposite | Trade 09-24 | 2.5 | 240m | 83 | 50.60% | 1.908 | 0.05% | 35.86 | 現本命 |
+| USDJPY | OOS |  | 攻め型 | 1H | 5m | 2.0 | Zone Opposite | Trade 09-24 | 2.5 | 240m |  |  |  |  |  |  |
+| USDJPY | IS |  | 安定型 | 1H | 5m | 2.0 | Zone Opposite | Trade 09-24 | 2.0 | 240m | 86 | 52.33% | 1.734 | 0.04% | 27.17 | 勝率重視 |
+| USDJPY | OOS |  | 安定型 | 1H | 5m | 2.0 | Zone Opposite | Trade 09-24 | 2.0 | 240m |  |  |  |  |  |  |
+| USDJPY | IS |  | 回数寄り | 1H | 5m | 2.0 | Zone Opposite | Trade 09-24 | 2.0 | 300m | 93 | 51.61% | 1.595 | 0.05% | 25.01 | Trades重視 |
+| USDJPY | OOS |  | 回数寄り | 1H | 5m | 2.0 | Zone Opposite | Trade 09-24 | 2.0 | 300m |  |  |  |  |  |  |
+
+## OOS-B IS 20210101~20240630  OOS 20240701~20251231
+
+| Pair | Period Type | Period | Type | Setup TF | Trigger TF | ATR | SL Mode | Time Filter | RR | Expire | Trades | Win Rate | PF | Max DD | Avg P/L | Memo |
+|---|---|---|---|---|---|---:|---|---|---:|---:|---:|---:|---:|---:|---:|---|
+| USDJPY | IS |  | 攻め型 | 1H | 5m | 2.0 | Zone Opposite | Trade 09-24 | 2.5 | 240m | 83 | 50.60% | 1.908 | 0.05% | 35.86 | 現本命 |
+| USDJPY | OOS |  | 攻め型 | 1H | 5m | 2.0 | Zone Opposite | Trade 09-24 | 2.5 | 240m |  |  |  |  |  |  |
+| USDJPY | IS |  | 安定型 | 1H | 5m | 2.0 | Zone Opposite | Trade 09-24 | 2.0 | 240m | 86 | 52.33% | 1.734 | 0.04% | 27.17 | 勝率重視 |
+| USDJPY | OOS |  | 安定型 | 1H | 5m | 2.0 | Zone Opposite | Trade 09-24 | 2.0 | 240m |  |  |  |  |  |  |
+| USDJPY | IS |  | 回数寄り | 1H | 5m | 2.0 | Zone Opposite | Trade 09-24 | 2.0 | 300m | 93 | 51.61% | 1.595 | 0.05% | 25.01 | Trades重視 |
+| USDJPY | OOS |  | 回数寄り | 1H | 5m | 2.0 | Zone Opposite | Trade 09-24 | 2.0 | 300m |  |  |  |  |  |  |
