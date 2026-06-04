@@ -521,3 +521,38 @@ PFが高くてもTradesが少なすぎる場合は参考扱い。
 | 1H | 5m | 2.0 | 2.0 | 240m | Early Asia 03-09 | 25 | 40.00% | 1.189 | 0.06% | 8.93 | 弱め |
 | 1H | 5m | 2.0 | 2.0 | 240m | Tokyo + NY | 71 | 49.30% | 1.534 | 0.05% | 21.34 | 強い時間帯合成 |
 | 1H | 5m | 2.0 | 2.0 | 240m | Exclude Early Asia 09-03 | 98 | 52.04% | 1.604 | 0.05% | 23.07 | 03-09除外 |
+
+## Time Filter Combination Test 結果
+
+Early Asia 03-09 を除外する組み合わせを検証。
+
+### RR 2.5 / Expire 240m
+
+| Setup TF | Trigger TF | ATR | RR | Expire | Time Filter | Trades | Win Rate | PF | Max DD | Avg P/L | Memo |
+|---|---|---:|---:|---:|---|---:|---:|---:|---:|---:|---|
+| 1H | 5m | 2.0 | 2.5 | 240m | All | 106 | 46.23% | 1.564 | 0.06% | 24.84 | 基準 |
+| 1H | 5m | 2.0 | 2.5 | 240m | Tokyo + NY | 71 | 45.07% | 1.629 | 0.06% | 27.54 | 強い時間帯合成 |
+| 1H | 5m | 2.0 | 2.5 | 240m | Exclude Early Asia 09-03 | 95 | 49.47% | 1.717 | 0.07% | 29.79 | 03-09除外 |
+
+### RR 2.0 / Expire 240m
+
+| Setup TF | Trigger TF | ATR | RR | Expire | Time Filter | Trades | Win Rate | PF | Max DD | Avg P/L | Memo |
+|---|---|---:|---:|---:|---|---:|---:|---:|---:|---:|---|
+| 1H | 5m | 2.0 | 2.0 | 240m | All | 112 | 49.11% | 1.496 | 0.06% | 19.87 | 基準 |
+| 1H | 5m | 2.0 | 2.0 | 240m | Tokyo + NY | 71 | 49.30% | 1.534 | 0.05% | 21.34 | 強い時間帯合成 |
+| 1H | 5m | 2.0 | 2.0 | 240m | Exclude Early Asia 09-03 | 98 | 52.04% | 1.604 | 0.05% | 23.07 | 03-09除外 |
+
+### 判断
+
+`Exclude Early Asia 09-03` が最有力。
+
+Early Asia 03-09 を除外することで、Tradesを大きく減らさずPFとAvg P/Lが改善した。
+
+主軸候補：
+
+| Type | ATR | RR | Expire | Time Filter | Trades | PF | Memo |
+|---|---:|---:|---:|---|---:|---:|---|
+| 攻め型 | 2.0 | 2.5 | 240m | Exclude Early Asia 09-03 | 95 | 1.717 | Avg P/L重視 |
+| バランス型 | 2.0 | 2.0 | 240m | Exclude Early Asia 09-03 | 98 | 1.604 | 勝率・安定重視 |
+
+次は4分割、または Europe / NY の細分化を検討する。
